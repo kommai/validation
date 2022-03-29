@@ -1,0 +1,31 @@
+{
+    "name": "kommai/validation",
+    "description": "The kommai validation library",
+    "type": "library",
+    "homepage": "https://github.com/kommai/validation",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "The Kommai Toolkit",
+            "email": "dev@kommai.app"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "kommai/testkit": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kommai\\Validation\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kommai/testkit"
+        }
+    ]
+}
