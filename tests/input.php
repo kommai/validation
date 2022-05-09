@@ -34,10 +34,12 @@ $validator->filled('email', 'must be filled')->email('email', 'invalid');
 if (isset($data['url'])) {
     $validator->url('url', 'invalid');
 }
-$validator->filled('password', 'must be filled')->longer('password', 4 - 1, 'too short')->shorter('password', 8 + 1, 'too long');
+$validator->filled('password', 'must be filled')->longer('password', 4 - 1, 'too short')->shorter('password', 8 + 1, 'too long')->custom('password', function ($value) {
+    return !str_starts_with($value, '123');
+}, 'that is a bad one!');
 $validator->filled('postal', 'must be filled')->regex('postal', '/\A[0-9]{7}\z/', 'invalid');
 
 $validatorProxy = new Proxy($validator);
-//var_dump($validatorProxy->rules);
+var_dump($validatorProxy->rules);
 
 var_dump($validator->validate($data));
