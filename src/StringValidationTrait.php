@@ -6,7 +6,7 @@ namespace Kommai\Validation;
 
 trait StringValidationTrait
 {
-    public function filled(int|string $key, string $error): self
+    private function filled(int|string $key, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) {
