@@ -8,7 +8,7 @@ use RuntimeException;
 
 trait RegexValidationTrait
 {
-    public function regex(int|string $key, string $pattern, string $error): self
+    private function regex(int|string $key, string $pattern, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) use ($pattern) {

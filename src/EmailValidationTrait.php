@@ -6,7 +6,7 @@ namespace Kommai\Validation;
 
 trait EmailValidationTrait
 {
-    public function email(int|string $key, string $error): self
+    private function email(int|string $key, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) {

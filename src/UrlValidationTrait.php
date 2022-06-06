@@ -6,7 +6,7 @@ namespace Kommai\Validation;
 
 trait UrlValidationTrait
 {
-    public function url(int|string $key, string $error): self
+    private function url(int|string $key, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) {

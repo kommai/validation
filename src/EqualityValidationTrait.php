@@ -6,7 +6,7 @@ namespace Kommai\Validation;
 
 trait EqualityValidationTrait
 {
-    public function equal(int|string $key, mixed $target, string $error): self
+    private function equal(int|string $key, mixed $target, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) use ($target) {

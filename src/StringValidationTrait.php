@@ -17,7 +17,7 @@ trait StringValidationTrait
         return $this;
     }
 
-    public function longer(int|string $key, int $length, string $error): self
+    private function longer(int|string $key, int $length, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) use ($length) {
@@ -28,7 +28,7 @@ trait StringValidationTrait
         return $this;
     }
 
-    public function shorter(int|string $key, int $length, string $error): self
+    private function shorter(int|string $key, int $length, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) use ($length) {

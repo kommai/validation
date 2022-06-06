@@ -8,7 +8,7 @@ use Closure;
 
 trait CustomValidationTrait
 {
-    public function custom(int|string $key, Closure $callback, string $error): self
+    private function custom(int|string $key, Closure $callback, string $error): self
     {
         $this->rules[$key][] = [
             'validator' => function ($value) use ($callback) {
