@@ -12,7 +12,8 @@
     ],
     "require": {
         "php": ">=8.0",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "kommai/http": "dev-main"
     },
     "require-dev": {
         "kommai/testkit": "dev-main"
@@ -24,6 +25,10 @@
     },
     "minimum-stability": "dev",
     "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kommai/http"
+        },
         {
             "type": "vcs",
             "url": "https://github.com/kommai/testkit"

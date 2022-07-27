@@ -16,20 +16,17 @@ $validation = new class extends Validation implements ValidationInterface
     public function __invoke(array $data): array
     {
         $this->filled('name', 'Must be filled');
-        $this->filled('email', 'Must be filled');
-        $this->filled('password', 'Must be filled');
-        $this->filled('postal', 'Must be filled');
+        $this->shorter('name', 15, 'Too long');
+        $this->filled('likes', 'Must be filled');
+        $this->shorter('likes', 15, 'Too long');
         return parent::__invoke($data);
     }
 };
 
-
 $data = [
-    'name' => '',
-    'email' => 'alice@example.com.123',
-    //'url' => 'example.com',
-    'password' => '12345678',
-    'postal' => '730-0854',
+    'name' => 'Alice',
+    //'name' => '',
+    'likes' => ['Apple', 'Book', 'Computer'],
 ];
 
 $errors = $validation->__invoke($data);
