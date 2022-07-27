@@ -2,21 +2,27 @@
 
 declare(strict_types=1);
 
-use Kommai\Validation\InputValidationTrait;
-use Kommai\Validation\ValidatorTrait;
-use Kommai\TestKit\Proxy;
+use Kommai\Validation\CustomValidationTrait;
+use Kommai\Validation\StringValidationTrait;
+use Kommai\Validation\Validation;
+use Kommai\Validation\ValidationInterface;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-class ExampleInputValidator
+$validation = new class extends Validation implements ValidationInterface
 {
-    use ValidatorTrait;
-    use InputValidationTrait;
-}
+    use StringValidationTrait, CustomValidationTrait;
 
-$data = [
-    'foo',
-];
+    public function __invoke(array $data): array
+    {
+        $this->filled('name', 'Must be filled');
+        $this->filled('email', 'Must be filled');
+        $this->filled('password', 'Must be filled');
+        $this->filled('postal', 'Must be filled');
+        return parent::__invoke($data);
+    }
+};
+
 
 $data = [
     'name' => '',
@@ -26,20 +32,10 @@ $data = [
     'postal' => '730-0854',
 ];
 
-$validator = new ExampleInputValidator();
-//$validator->filled(0, 'must be filled');
-//$validator->filled('X', 'must be filled');
-$validator->filled('name', 'must be filled')->equal('name', 'Alice', 'must be Alice');
-$validator->filled('email', 'must be filled')->email('email', 'invalid');
-if (isset($data['url'])) {
-    $validator->url('url', 'invalid');
+$errors = $validation->__invoke($data);
+if (!$errors) {
+    echo 'Validation passed!', PHP_EOL;
+} else {
+    echo 'Validation failed; error(s):', PHP_EOL;
+    var_dump($errors);
 }
-$validator->filled('password', 'must be filled')->longer('password', 4 - 1, 'too short')->shorter('password', 8 + 1, 'too long')->custom('password', function ($value) {
-    return !str_starts_with($value, '123');
-}, 'that is a bad one!');
-$validator->filled('postal', 'must be filled')->regex('postal', '/\A[0-9]{7}\z/', 'invalid');
-
-$validatorProxy = new Proxy($validator);
-var_dump($validatorProxy->rules);
-
-var_dump($validator->validate($data));
