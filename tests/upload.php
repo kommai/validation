@@ -20,13 +20,14 @@ $validation = new class extends Validation implements ValidationInterface
         $this->filled('file', 'No file was uploaded');
         $this->written('file', 'Missing a temporary folder | Failed to write file to disk');
         $this->smaller('file', 1001, 'Too big');
-        //$this->type('file', 'image/jpeg', 'Invalid or unknown type'); // this should fail for non-actual uploaded file
+        //$this->type('file', 'image/gif', 'Invalid or unknown type'); // this should fail for non-actual uploaded file
+        //$this->type('file', ['image/gif', 'image/jpeg', 'image/png'], 'Invalid or unknown type'); // this should fail for non-actual uploaded file
         return parent::__invoke($data);
     }
 };
 
 $uploads = [
-    'file' => new Upload('file.jpg', 'image/jpeg', 'temp', UPLOAD_ERR_INI_SIZE, 1000),
+    'file' => new Upload('file.jpg', 'text/plain', 'temp', UPLOAD_ERR_OK, 1000),
 ];
 //var_dump($uploads);
 
