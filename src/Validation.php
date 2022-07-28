@@ -35,6 +35,10 @@ class Validation implements ValidationInterface
         foreach ($data as $key => $value) {
             //echo sprintf('Validating "%s"...', $key), PHP_EOL;
             //var_dump($value);
+            if (!isset($this->rules[$key])) {
+                //echo sprintf('No rules for "%s"', $key), PHP_EOL;
+                continue;
+            }
             if (is_array($value)) {
                 foreach ($value as $i => $item) {
                     $error = self::validate($item, $this->rules[$key]);
