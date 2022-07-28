@@ -9,11 +9,21 @@ use RuntimeException;
 
 trait UploadValidationTrait
 {
-    // TODO: more validations
-    // uploaded -> fail when the file is not uploaded (selected) UPLOAD_ERR_NO_FILE
-    // completed -> fail when the file is partially uploaded UPLOAD_ERR_PARTIAL
-    // smallEnough -> fail when the file size exceeds PHP limit UPLOAD_ERR_INI_SIZE
-    // written -> fail when the file was not written UPLOAD_ERR_CANT_WRITE/UPLOAD_ERR_NO_TMP_DIR
+    private function smallEnough(int|string $key, string $error): self
+    {
+        /*
+        $this->rules[$key][] = [
+            'validator' => function (Upload $upload) {
+                return $upload->error !== UPLOAD_ERR_INI_SIZE;
+            },
+            'error' => $error,
+        ];
+        return $this;
+        */
+        return $this->addRule($key, function (Upload $upload) {
+            return $upload->error !== UPLOAD_ERR_INI_SIZE;
+        }, $error);
+    }
 
     private function completed(int|string $key, string $error): self
     {
@@ -26,7 +36,39 @@ trait UploadValidationTrait
         return $this;
     }
 
-    // TODO: bigger as well?
+    private function filled(int|string $key, string $error): self
+    {
+        $this->rules[$key][] = [
+            'validator' => function (Upload $upload) {
+                return $upload->error !== UPLOAD_ERR_NO_FILE;
+            },
+            'error' => $error,
+        ];
+        return $this;
+    }
+
+    private function written(int|string $key, string $error): self
+    {
+        $this->rules[$key][] = [
+            'validator' => function (Upload $upload) {
+                return $upload->error !== UPLOAD_ERR_NO_TMP_DIR && $upload->error !== UPLOAD_ERR_CANT_WRITE;
+            },
+            'error' => $error,
+        ];
+        return $this;
+    }
+
+    private function bigger(int|string $key, int $size, string $error): self
+    {
+        $this->rules[$key][] = [
+            'validator' => function (Upload $upload) use ($size) {
+                return $upload->size > $size;
+            },
+            'error' => $error,
+        ];
+        return $this;
+    }
+
     private function smaller(int|string $key, int $size, string $error): self
     {
         $this->rules[$key][] = [
