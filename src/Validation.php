@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Kommai\Validation;
 
-use InvalidArgumentException;
+use Closure;
 
-class Validation
+class Validation implements ValidationInterface
 {
     protected array $rules = [];
 
@@ -18,6 +18,15 @@ class Validation
             }
         }
         return null;
+    }
+
+    protected function addRule(int|string $key, Closure $validator, string $error): self
+    {
+        $this->rules[$key][] = [
+            'validator' => $validator,
+            'error' => $error
+        ];
+        return $this;
     }
 
     public function __invoke(array $data): array

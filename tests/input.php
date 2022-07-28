@@ -25,7 +25,7 @@ $validation = new class extends Validation implements ValidationInterface
 
 
 $data = [
-    'name' => '',
+    'name' => 'Alice',
     'email' => 'alice@example.com.123',
     //'url' => 'example.com',
     'password' => '12345678',

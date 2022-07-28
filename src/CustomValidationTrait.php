@@ -6,6 +6,7 @@ namespace Kommai\Validation;
 
 use Closure;
 
+// TODO: I don't think I need this when it has addRule()
 trait CustomValidationTrait
 {
     private function custom(int|string $key, Closure $callback, string $error): self
