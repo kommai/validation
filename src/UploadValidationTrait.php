@@ -26,7 +26,7 @@ trait UploadValidationTrait
     private function filled(int|string $key, string $error): self
     {
         return $this->addRule($key, function (Upload $upload) {
-            return !empty($upload) || $upload->error !== UPLOAD_ERR_NO_FILE;
+            return !empty($upload) && $upload->error !== UPLOAD_ERR_NO_FILE;
         }, $error);
     }
 
